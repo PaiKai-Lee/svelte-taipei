@@ -1,11 +1,13 @@
-require('dotenv').config()
+require('dotenv').config();
+require('./DB/db.js');
 const express = require("express");
 const app = express();
-require('./DB/db.js');
+const cors = require("cors");
 const port = process.env.PORT || 3000;
 const apiAttraction = require('./router/attraction');
 const apiUser = require('./router/user');
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 app.use("/api/attraction",apiAttraction);
