@@ -2,9 +2,11 @@ const mongoose = require('mongoose');
 const fs = require("fs/promises");
 const Attraction = require("./models/Attractions");
 const User = require("./models/Users");
-mongoose.connect('mongodb://localhost:27017/taipei')
+
+mongoose.connect(process.env.DB_SERVER)
 .then(()=>{console.log(`connectec to mongoDB`)})
 .catch(e=>console.log(e));
+
 async function readFile() {
     let data = await fs.readFile(`../public/data/taipei-attractions.json`)
     data = JSON.parse(data);
