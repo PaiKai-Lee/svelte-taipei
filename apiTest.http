@@ -1,0 +1,23 @@
+### 創建帳號
+POST http://localhost:8888/api/user/create
+content-type: application/json
+
+{
+    "name": "test",
+    "account": "test123",
+    "password": "abcd1234"
+}
+
+### 登入
+POST http://localhost:8888/api/user/login
+content-type: application/json
+
+{
+    "account": "test123",
+    "password": "abcd1234"
+}
+
+### 取得景點
+
+GET http://localhost:8888/api/attraction
+content-type: application/json
