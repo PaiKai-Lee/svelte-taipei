@@ -12,21 +12,26 @@ const checkSession = (req, res, next) => {
 
 router.post('/login', async (req, res) => {
     let { account, password: userPassword } = req.body
-    let user = await User.findOne({ account }).exec();
-    // 沒有此帳號
-    if (user === null) return res.status(400).json({ "status": "error", "msg": "帳號或密碼錯誤" })
+    try {
+        let user = await User.findOne({ account }).exec();
+        // 沒有此帳號
+        if (user === null) return res.status(400).json({ "status": "1002", "msg": "帳號或密碼錯誤" })
 
-    let { password, salt, name } = user;
-    let result = checkPWD(userPassword, salt, password);
+        let { password, salt, name } = user;
+        let result = checkPWD(userPassword, salt, password);
+        // 密碼錯誤
+        if (result === false) return res.status(400).json({ "status": "1002", "msg": "帳號或密碼錯誤" })
 
-    // 密碼錯誤
-    if (result === false) return res.status(400).json({ "status": "error", "msg": "帳號或密碼錯誤" })
+        if (req.session.login !== true) {
+            req.session.login = true
+        }
 
-    if (req.session.login !== true) {
-        req.session.login = true
+        res.json({ "status": "1001", "name": name })
+    } catch (err) {
+        console.log(err.message)
+        res.status(500).json({ "status": "1003" })
     }
 
-    res.json({ "status": "ok", "name": name })
 })
 function checkPWD(userPassword, salt, password) {
     const hash = createHash('sha256');
@@ -35,9 +40,10 @@ function checkPWD(userPassword, salt, password) {
     return (correctPWD === password) ? true : false
 }
 
-router.post('/create', cryptoPWD, async (req, res) => {
-    let { name, account } = req.body
-    let { password, salt } = req
+
+router.post('/create', checkSingupData, cryptoPWD, async (req, res) => {
+    let { name, account } = req.body;
+    let { password, salt } = req;
     try {
         await User.create({
             name: name,
@@ -45,12 +51,24 @@ router.post('/create', cryptoPWD, async (req, res) => {
             password: password,
             salt: salt
         })
-        res.json({ "status": "ok" })
+        res.json({ "status": "1001" })
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ "status": "error" })
+        console.log(err.message);
+        if (err.message.indexOf("duplicate key error") !== -1) {
+            return res.status(400).json({ "status": "1002",  "msg": "帳號已註冊"})
+        }
+        res.status(500).json({ "status": "1003" })
     }
 })
+function checkSingupData(req, res, next) {
+    let { name, account, password } = req.body;
+    name=name.trim();
+    account=account.trim();
+    password=password.trim();
+    if (name === "" || account === "" || password === "") return res.status(400).json({ "status": "1002", "msg": "資料不可空白" })
+    if (name.length < 3 || account.length < 3 || password.length < 6) return res.status(400).json({ "status": "1002", "msg": "帳號或姓名過短" })
+    next()
+}
 function cryptoPWD(req, res, next) {
     let t = Date.now()
     let salt = `${process.env.SYCRET_KEY}${t}`
