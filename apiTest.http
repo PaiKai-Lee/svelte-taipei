@@ -19,5 +19,5 @@ content-type: application/json
 
 ### 取得景點
 
-GET http://localhost:8888/api/attraction
+GET http://localhost:8888/api/attraction?page=26&keyword=
 content-type: application/json
