@@ -2,7 +2,6 @@
 	import Header from "./components/Header.svelte";
 	import Card from "./components/Card.svelte";
 	import Footer from "./components/Footer.svelte";
-	// import ToggleBtn from "./components/Hamburger.svelte";
 	import SearchBar from "./components/SearchBar.svelte";
 	import Bar from "./components/Bar.svelte";
 	import Container from "./components/Container.svelte";
@@ -38,14 +37,17 @@
 			imgUrl: "https://fakeimg.pl/250x150/",
 		},
 	];
+	let searchName;
 	function searchData(e){
-		console.log(e.detail.data)//收循景點
+		console.log(searchName)//搜尋景點
 	}
 </script>
 
 <div class="wrap">
 	<Header />
-	<Bar><SearchBar slot="searchBar" on:search={searchData}/></Bar>
+	<Bar>
+		<SearchBar bind:searchName slot="searchBar" on:search={searchData}/>
+	</Bar>
 	<Container>
 		{#each cardInfo as card}
 			<Card {...card} />
