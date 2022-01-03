@@ -3,9 +3,7 @@
     const dispatch = createEventDispatcher();
     export let searchName = "";
     function search() {
-        dispatch("search", {
-            data:searchName,
-        });
+        dispatch("search");
         searchName=""
     }
 </script>

@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 
 const usersSchemas =new mongoose.Schema({
+    id:{
+        type:Number,
+        unique:true
+    },
     name:{
         type:String,
         required:true,
@@ -16,7 +20,6 @@ const usersSchemas =new mongoose.Schema({
     },
     salt: {
         type: String,
-        required:true
     },
     createdTime: {
         type:Date
@@ -31,4 +34,10 @@ const usersSchemas =new mongoose.Schema({
     }
 })
 
-module.exports = mongoose.model("User",usersSchemas)
+usersSchemas.pre("save",async function(){
+    this.id = await User.count()
+    this.createdTime = new Date(Date.now()-(new Date().getTimezoneOffset()*60000)); 
+})
+const User = mongoose.model("User",usersSchemas);
+
+module.exports = User

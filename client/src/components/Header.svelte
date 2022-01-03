@@ -1,4 +1,5 @@
 <script>
+    import ToggleBtn from "./Hamburger.svelte";
     export let title = "台北一日遊";
     export let login = false;
     export let headerHeight = 5;
@@ -12,6 +13,7 @@
             <li>{login === true ? "登出" : "登入/註冊"}</li>
         </ul>
     </div>
+    <ToggleBtn/>
 </main>
 
 <style lang="scss">
