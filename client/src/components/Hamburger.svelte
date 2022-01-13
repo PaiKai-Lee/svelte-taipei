@@ -1,11 +1,13 @@
 <script>
     export let size = "25";
     let isActive = false;
+    export let isMobile = false;
 </script>
 
 <button
     on:click={() => (isActive = !isActive)}
     class:active={isActive}
+    class:mobile={!isMobile}
     style="--size:{size}px"
 >
     <span class="line line1" />
@@ -47,5 +49,9 @@
             position: absolute;
             transform: rotateZ(-45deg);
         }
+    }
+
+    .mobile{
+        display: none;
     }
 </style>
