@@ -5,7 +5,7 @@
     export let headerHeight = 5;
 </script>
 
-<main style="--headerHeight: {headerHeight}vh;">
+<header style="--headerHeight: {headerHeight}vh;">
     <div class="title"><a href="/">{title}</a></div>
     <div class="right">
         <ul>
@@ -14,13 +14,13 @@
         </ul>
     </div>
     <ToggleBtn/>
-</main>
+</header>
 
 <style lang="scss">
     :root {
         --text-color: black;
     }
-    main {
+    header {
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -51,7 +51,7 @@
         }
     }
     @media screen and (max-width:1200px){
-        main{
+        header{
             max-width:100%;
         }
     }

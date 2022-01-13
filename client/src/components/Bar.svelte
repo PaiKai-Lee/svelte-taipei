@@ -1,5 +1,5 @@
 <script>
-    import SearchBar from "./SearchBar.svelte";
+
 </script>
 
 <div class="bar">
