@@ -11,7 +11,7 @@
 <div class="searchBar">
     <input type="text" bind:value={searchName} />
     <button on:click={search}>
-        <!-- <img src="" alt="" /> -->
+        <img src="images/search.svg" alt="" />
     </button>
 </div>
 
@@ -19,10 +19,10 @@
     .searchBar{
         width: fit-content;
         height: 3em;
-        border-radius: 10px;
         display: flex;
         align-items: center;
         input {
+            border-radius: 15px 0 0 15px ;
             width: 400px;
             font-size: 1.6em;
             padding-left: 10px;
@@ -30,9 +30,14 @@
             border: none;
         }
         button{
+            cursor: pointer;
+            border-radius: 0 15px 15px 0;
             width: 60px;
             height: 46px;
             border: none;
+            &:hover{
+                background-color: rgb(206, 206, 206);
+            }
         }
     }
 </style>
